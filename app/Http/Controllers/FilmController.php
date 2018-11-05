@@ -149,14 +149,16 @@ class FilmController extends Controller
      * @param  integer $idUser
      * @return \Illuminate\Http\Response
      */
-    public function createComment(Request $request, $idFilm)
+    public function createComment(Request $request)
     {
+        print_r("assssssssssssssssss");
+        return;
         $comment = new Comment();
         $comment->comment = $request->comment;
         $comment->film_id = $idFilm;
 
         $comment->save();
 
-        return redirect('/film/show/$idFilm');
+       // return redirect('/film/show/$idFilm');
     }
 }

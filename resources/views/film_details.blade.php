@@ -47,7 +47,8 @@
           <div class="card my-4">
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
-              <form action="{{ route('comment.create', ['idFilm' => '12'])}}">
+              <form action="{{ route('comment.create')}}" method="POST">
+                {{ csrf_field() }}
                 <div class="form-group">
                   <textarea class="form-control col-sm-4" rows="3"></textarea>
                 </div>

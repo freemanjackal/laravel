@@ -69,5 +69,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/', 'FilmController@index');
-    Route::post('/comment/create/{idFilm}', 'FilmController@createComment')->name('comment.create');
+    Route::post('/comment/create', 'FilmController@createComment')->name('comment.create');
 });
