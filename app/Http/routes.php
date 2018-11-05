@@ -13,20 +13,21 @@
 
 use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Middleware\Authenticate;
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web', 'auth']], function () {
     /**
      * Show Task Dashboard
      */
-    Route::get('/', function () {
+    /*Route::get('/', function () {
         return view('tasks', [
             'tasks' => Task::orderBy('created_at', 'asc')->get()
         ]);
     });
-
+*/
     /**
      * Add New Task
-     */
+   
     Route::post('/task', function (Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
@@ -47,10 +48,26 @@ Route::group(['middleware' => ['web']], function () {
 
     /**
      * Delete Task
-     */
+     
     Route::delete('/task/{id}', function ($id) {
         Task::findOrFail($id)->delete();
 
         return redirect('/');
     });
+*/
+
+    Route::resource('film', 'FilmController', ['except' => ['index']]);
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/', 'FilmController@index');
+    Route::post('/comment/create/{idFilm}', 'FilmController@createComment')->name('comment.create');
 });

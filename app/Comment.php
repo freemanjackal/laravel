@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class comment extends Model
+class Comment extends Model
 {
     //
     public function todolist()
   {
-    return $this->belongsTo('App\film');
+    return $this->belongsTo('App\Film');
   }
 }

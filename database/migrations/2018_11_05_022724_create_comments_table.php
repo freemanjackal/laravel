@@ -13,10 +13,17 @@ class CreateCommentsTable extends Migration
     public function up()
     {
         //
-        Schema::create('films', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('comment');
+            $table->integer('film_id')->unsigned();
+            
         });
+        Schema::table('comments', function($table) {
+        $table->foreign('film_id')
+                ->references('id')->on('films')
+                ->onDelete('cascade');
+   });
     }
 
     /**
