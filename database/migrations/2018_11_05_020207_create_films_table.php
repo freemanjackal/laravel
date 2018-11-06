@@ -23,7 +23,6 @@ class CreateFilmsTable extends Migration
             $table->string('photo');
             $table->json('genres');
             $table->timestamps('release_date');
-            //$table->string('genre');
         });
     }
 

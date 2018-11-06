@@ -13,7 +13,9 @@
                     @include('common.errors')
 
                     <!-- New Task Form -->
-                    <form action="{{ route('film.store')}}" method="POST" class="form-horizontal">
+                    <form action="{{ route('film.store')}}" method="POST" class="form-horizontal" 
+                        enctype="multipart/form-data">
+                        
                         {{ csrf_field() }}
 
                         <!-- Task Name -->
@@ -21,46 +23,62 @@
                             <label for="task-name" class="col-sm-3 control-label">Name</label>
 
                             <div class="col-sm-6">
-                                <input type="text" name="name" id="film-name" class="form-control" value="{{ old('task') }}">
+                                <input type="text" name="name" required id="film-name" class="form-control" value="{{ old('name') }}">
                             </div>
                         </div>
                         
                         <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-3">
                             @foreach ($genres as $genre)
-                              <div class="col-sm-3" >
-                                 <label for={{$genre->id}} class="col-sm-3 control-label">{{$genre->genre}}</label>
-                                {{-- Form::checkbox($genre->genre,null,null, array('id'=>$genre->id)) --}}
-                                <input type="checkbox" name={{$genre->genre}} id={{$genre->id}} class="col-sm-3" value="false" >
-                              </div>
+                              
+                              <label class="checkbox-inline"><input type="checkbox" name="genre[]" onclick='handleClick(this);' value="{{$genre->genre}}" required>{{$genre->genre}}</label>
                              @endforeach
+                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="task-name" class="col-sm-3 control-label">Description</label>
+                            <label for="film-description" class="col-sm-3 control-label">Description</label>
 
                             <div class="col-sm-6">
-                                <input type="text" name="description" id="film-description" class="form-control" value="{{ old('task') }}">
+                                <textarea name="description" required id="film-description" class="form-control" value="{{ old('description') }}"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="film-price" class="col-sm-3 control-label">price</label>
+                            <label for="film-price" class="col-sm-3 control-label">Price</label>
 
                             <div class="col-sm-6">
-                                <input type="text" name="price" id="film-price" class="form-control" value="{{ old('task') }}">
+                                <input type="text" name="price" required id="film-price" class="form-control" value="{{ old('price') }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="film-rating" class="col-sm-3 control-label">rating</label>
+                            <label for="film-rating" class="col-sm-3 control-label">Rating</label>
 
                             <div class="col-sm-6">
-                                <input type="text" name="rating" id="film-rating" class="form-control" value="{{ old('task') }}">
+                                <!--input type="text" name="rating" id="film-rating" class="form-control" value="{{ old('film') }}" >
+                                 <label for="sel1">Select list:</label-->
+                                  <select name="rating" class="form-control" id="sel1" value="{{ old('rating') }}">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+
+                                  </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="film-country" class="col-sm-3 control-label">Country</label>
+
+                            <div class="col-sm-6">
+                                <input type="text" name="country" required id="film-country" class="form-control" value="{{ old('country') }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="film-country" class="col-sm-3 control-label">country</label>
-
-                            <div class="col-sm-6">
-                                <input type="text" name="country" id="film-country" class="form-control" value="{{ old('task') }}">
-                            </div>
+                                <label for="image" class="col-sm-3 control-label" >Film image:</label>
+                                <div class="col-sm-6">
+                                    <input type="file" id="image" name="image" 
+                                        accept="image/png, image/jpeg" />
+                                </div>
                         </div>
 
                         <!-- Add Task Button -->
@@ -78,3 +96,31 @@
         </div>
     </div>
 @endsection
+<script type="text/javascript">
+    
+
+   
+    
+    function handleClick(cb){
+       var requiredCheckboxes = $(':checkbox');
+       var inputs = document.querySelectorAll('input[type=checkbox]')
+       var selected = false;
+       for(var i= 0; i < inputs.length; i++){
+            if(inputs[i].checked){
+              selected = true;
+              break;  
+            }
+        }
+        if(!selected){
+            for(var i= 0; i < inputs.length; i++){
+                inputs[i].required = true;
+            }
+        }
+        else{
+            for(var i= 0; i < inputs.length; i++){
+                inputs[i].required = false;
+            }
+        }
+    }
+
+</script>

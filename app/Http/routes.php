@@ -56,7 +56,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     });
 */
 
-    Route::resource('film', 'FilmController', ['except' => ['index']]);
+    Route::resource('film', 'FilmController', ['except' => ['index', 'show']]);
+    Route::post('/comment/create', 'FilmController@createComment')->name('comment.create');
+    
 });
 
 Route::group(['middleware' => 'web'], function () {
@@ -69,5 +71,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/', 'FilmController@index');
-    Route::post('/comment/create', 'FilmController@createComment')->name('comment.create');
+    Route::get('/film/{id}', 'FilmController@show')->name('film.show');
 });

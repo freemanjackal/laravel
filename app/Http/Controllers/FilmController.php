@@ -10,6 +10,7 @@ use App\Film;
 use App\Comment;
 use App\Genre;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class FilmController extends Controller
 {
@@ -66,18 +67,16 @@ class FilmController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        
-        $genres = Genre::all();
-
-        $arrayGenres = array();
-        foreach ($genres as $obj) {
-            $value = $obj->genre;
-            if(isset($request->$value)){
-
-                $arrayGenres[] = $obj->genre;
-            }
-        }
+        //create a separate validation file
+       
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+            'rating' => 'required|between:1,5',
+            'price' => 'required|between:0,99.99',
+            'genre' => 'required'
+        ]);
+   
 
         $film1 = new Film();
         $film1->name = $request->input('name');
@@ -85,10 +84,18 @@ class FilmController extends Controller
         $film1->price = $request->input('price');
         $film1->rating = $request->input('rating');
         $film1->country = $request->input('country');
-        $film1->genres = $arrayGenres;
+        $film1->genres = $request->input('genre');
         $film1->created_at = date("Y-m-d H:i:s");
+        if( $request->hasFile('image')) {
+            print_r("entrooooooooo");
+            $image = $request->file('image');
+            $path = public_path(). '/images/';
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($path, $filename);
+
+            $film1->photo = $filename;
+        }
         $film1->save();
-        //return;
         return redirect('/');
     }
 
@@ -155,6 +162,7 @@ class FilmController extends Controller
         $comment = new Comment();
         $comment->comment = $request->comment;
         $comment->film_id = $request->idFilm;
+        $comment->user = Auth::user()->name;
 
         $comment->save();
 

@@ -17,6 +17,7 @@ class CreateCommentsTable extends Migration
             $table->increments('id');
             $table->string('comment');
             $table->integer('film_id')->unsigned();
+            $table->string('user');
             
         });
         Schema::table('comments', function($table) {

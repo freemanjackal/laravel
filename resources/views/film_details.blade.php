@@ -35,15 +35,17 @@
           <hr>
 
           <!-- Preview Image -->
-          <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
+          <img class="img-fluid rounded" src="{{ URL::asset('images/'.$film->photo) }}" alt="">
 
           <hr>
-
+            <h4> Description: </h4> <br>
             {{$film->description}}
 
           <hr>
 
           <!-- Comments Form -->
+          @if (!Auth::guest())
+
           <div class="card my-4">
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
@@ -58,13 +60,14 @@
               </form>
             </div>
           </div>
-
+          @endif
           <!-- Single Comment -->
           @foreach ($film->comments as $comment)
 
           <div class="media mb-4">
             <div class="media-body">
-              <h5 class="mt-0">Commenter Name:</h5>
+              <h3 class="mt-0">Comments:</h3>
+              <h4 class="mt-0">{{$comment->user}} said:</h4>
               {{$comment->comment}}
             </div>
           </div>
