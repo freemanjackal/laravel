@@ -151,14 +151,13 @@ class FilmController extends Controller
      */
     public function createComment(Request $request)
     {
-        print_r("assssssssssssssssss");
-        return;
+        print_r($request->comment);
         $comment = new Comment();
         $comment->comment = $request->comment;
-        $comment->film_id = $idFilm;
+        $comment->film_id = $request->idFilm;
 
         $comment->save();
 
-       // return redirect('/film/show/$idFilm');
+        return redirect('/film/'.$request->idFilm);
     }
 }

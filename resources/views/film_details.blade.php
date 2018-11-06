@@ -50,23 +50,25 @@
               <form action="{{ route('comment.create')}}" method="POST">
                 {{ csrf_field() }}
                 <div class="form-group">
-                  <textarea class="form-control col-sm-4" rows="3"></textarea>
+                  <textarea class="form-control col-sm-4" rows="3" name="comment"></textarea>
                 </div>
                 <br>
-                <input type="hidden" value="{{$film->id}}">
+                <input type="hidden" value="{{$film->id}}" name="idFilm">
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
           </div>
 
           <!-- Single Comment -->
+          @foreach ($film->comments as $comment)
+
           <div class="media mb-4">
             <div class="media-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+              <h5 class="mt-0">Commenter Name:</h5>
+              {{$comment->comment}}
             </div>
           </div>
-
+          @endforeach
        
         </div>
 
